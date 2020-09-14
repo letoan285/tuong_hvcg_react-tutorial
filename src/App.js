@@ -3,7 +3,7 @@ import Product from './components/Products.js';
 import Header from './components/Header';
 // let x = 9;
 
-
+/// for test only
 // const getjsx = (props) => {
 //   return (
 //   <h1>Get JSX Outside {props.name} {props.address}</h1>
