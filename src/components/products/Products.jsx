@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Products extends React.Component {
     constructor() {
@@ -70,37 +71,77 @@ class Products extends React.Component {
     }
     viewMoreDetail = (product) => {
         // viewMore(product);
+        console.log('this', this);
+        this.setState(prev => {
+            return {
+                ...prev,
+                buttonText: 'New Button Text'
+            };
+        })
     }
+    componentDidMount() {
+        console.log('didmount', this.props);
+        // setInterval(() => {
+        //    this.setState({
+        //     count: 78,
+        //    })
+        // }, 1000)
+    }
+
+    shouldComponentUpdate(prevProp, preveState) {
+        console.log('shouldComponentUpdate', preveState);
+        console.log('prevProp', prevProp);
+        console.log('stateeeee', this.state)
+        if(preveState != this.state){
+            console.log('trueeeee')
+            return false;
+        } else {
+            console.log('false')
+            return true;
+
+        }
+    }
+    componentDidUpdate() {
+        console.log('componentDidUpdate ');
+    }
+
+    componentWillUnmount() {
+        console.log('componentWillUnmount productList');
+    }
+
 
     render() {
         const productList = this.state.products.map((product) => {
             return (
-           
 
-                    <div className="col-4 mt-4">
-                        <div className="card">
-                            <div className="card-header">
 
-                                <h2>Product {product.name}</h2>
-                            </div>
-                            <div className="card-body">
+                <div className="col-4 mt-4" key={product.id}>
+                    <div className="card">
+                        <div className="card-header">
 
-                                <a href="#"><img style={{ width: '100%' }} src={product.src} /></a>
-                                <strong>Price: {product.price}</strong>
-                            </div>
-                            <div className="card-footer">
+                            <h2>Product {product.name}</h2>
+                        </div>
+                        <div className="card-body">
 
-                                <button className="btn btn-primary float-left mt-2" onClick={() => this.changeParentTitle(product.name)}>Buy now -- {product.name}</button>
-                                <button className="btn btn-warning float-right mt-2" onClick={() => this.viewMoreDetail(product)}>View More..</button>
-                            </div>
+                            <Link to={`/products/${product.id}`}><img style={{ width: '100%' }} src={product.src} /></Link>
+                            <strong>Price: {product.price}</strong>
+                        </div>
+                        <div className="card-footer">
+
+                            <button className="btn btn-primary float-left mt-2" onClick={() => this.changeParentTitle(product.name)}>Buy now -- {product.name}</button>
+                            <button className="btn btn-warning float-right mt-2" onClick={() => this.viewMoreDetail(product)}>View More..</button>
                         </div>
                     </div>
-            
+                </div>
+
             );
         });
         return (
             <div className="container">
+                <div className="row">
+                    <h2>Title: {this.state.buttonText}</h2>
 
+                </div>
                 <div className="row">
                     {productList}
                 </div>
