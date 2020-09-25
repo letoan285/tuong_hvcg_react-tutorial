@@ -18,6 +18,12 @@ const Header = () => {
                 <li className="nav-item">
                     <Link className="nav-link" to="/contact-us">Contact</Link>
                 </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/counters">Counter</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/hooks">Hooks </Link>
+                </li>
 
                 </ul>
                 <form className="form-inline my-2 my-lg-0">
