@@ -1,16 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, useLocation, useHistory } from 'react-router-dom';
-import App from './App';
-// const location = useLocation();
-// const history = useHistory();
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
-// console.log(location, history);
+import App from './App';
+
+
+
+
 ReactDOM.render(
   <>
-  
-    <App/>
- 
+    <Provider store={store}>
+      <App />
+    </Provider>
+
   </>,
   document.getElementById('root')
 );

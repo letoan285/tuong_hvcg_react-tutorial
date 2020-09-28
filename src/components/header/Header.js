@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-const Header = () => {
+import MiniCart from '../cart/MiniCart';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+
+const Header = ({product,cart }) => {
+    const [myCart, setmyCart] = useState([]);
+    useEffect(() => {
+        setmyCart([...cart.cart]);
+    }, [cart])
     return (
         <>
          <nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -30,10 +40,24 @@ const Header = () => {
                 <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
                 <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/hooks"><MiniCart cart={myCart} product={product}/> </Link>
+                </li>
             </div>
             </nav>
         </>
     );
 }
+const mapStateToProps = (state) => {
+    return {
+        cart: state
+    }
+}
 
-export default Header;
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+    {
+    },
+    dispatch
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

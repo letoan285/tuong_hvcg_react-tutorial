@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 // import HomePage from './pages/HomePage';
 import ContactUs from '../pages/contact';
 import Products from '../pages/products/Products';
@@ -14,11 +14,15 @@ import Counters from '../pages/counter/Counter';
 import MyHook from '../pages/hooks/MyHook';
 
 const DashboardRoute = () => {
+    const [product, setProduct] = useState({id: 0});
+    const getProduct = (product) => {
+        setProduct(product);
+    }
     return (
         <React.Fragment>
-            <Header />
+            <Header product={product} />
             <Switch>
-                <Route path="/products" exact render={() => <Products />} />
+                <Route path="/products" exact render={() => <Products getProduct={getProduct} />} />
                 <Route path="/" exact render={() => <HomePage />} />
                 <Route path="/products/:id" render={() => <ProductDetail />} />
                 <Route path="/counters" render={() => <Counters />} />
