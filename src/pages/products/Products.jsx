@@ -1,6 +1,11 @@
 import Axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import ProductItem from './ProductItem';
+import { getOne, addToCart } from '../../redux/action';
+import { bindActionCreators } from 'redux';
 
 class Products extends React.Component {
     // const [name, setName] = useState({ text: 'Tuong Le' });
@@ -35,12 +40,18 @@ class Products extends React.Component {
         })
     }
     componentDidMount() {
+        this.props.getOne({id: 100, name: 'product 100', price: 2000});
         console.log('didmount', this.props);
         console.log('componentDidMount 111');
         this.productList();
 
         this.categoryList();
-       
+        console.log('propssss 111', this.props.propsData);
+
+
+    }
+    addToCart = (product) => {
+        this.props.getProduct(product);
     }
     productList = () => {
         Axios.get('http://165.22.103.200:8081/api/products').then((res) => {
@@ -77,28 +88,13 @@ class Products extends React.Component {
 
     render() {
         console.log('render', this.state.posts);
+
+        console.log('propssss ', this.props);
         const productList = this.state.products.map((product) => {
             return (
 
 
-                <div className="col-4 mt-4" key={product.id}>
-                    <div className="card">
-                        <div className="card-header">
-
-                            <h2>Product {product.name}</h2>
-                        </div>
-                        <div className="card-body">
-
-                            <Link to={`/products/${product.id}`}><img style={{ width: '100%' }} src={product.image} /></Link>
-                            <strong>Price: {product.price}</strong>
-                        </div>
-                        <div className="card-footer">
-
-                            <button className="btn btn-primary float-left mt-2" onClick={() => this.changeParentTitle(product.name)}>Buy now -- {product.name}</button>
-                            <button className="btn btn-warning float-right mt-2" onClick={() => this.viewMoreDetail(product)}>View More..</button>
-                        </div>
-                    </div>
-                </div>
+                <ProductItem key={product.id} product={product} addCart={this.addToCart} />
 
             );
         });
@@ -108,7 +104,7 @@ class Products extends React.Component {
         return (
             <div className="container">
                 <div className="row">
-                    <h2>Title: {this.state.buttonText}</h2>
+                    <h2>Title: {this.state.buttonText} ---</h2>
 
                 </div>
                 <div className="row">
@@ -118,11 +114,11 @@ class Products extends React.Component {
                             {
                                 this.state.categories.map((item) => {
                                     return (
-                                    <li className="list-group-item" key={item.id}><Link to={`/categories/${item.id}`}>{item.name}</Link></li>
+                                        <li className="list-group-item" key={item.id}><Link to={`/categories/${item.id}`}>{item.name}</Link></li>
                                     );
                                 })
                             }
-                           
+
 
                         </ul>
                     </div>
@@ -141,5 +137,17 @@ class Products extends React.Component {
 
 
 }
+const mapStateToProps = (state) => {
+    return {
+        propsData: state.product
+    }
+}
 
-export default Products;
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+    {
+        getOne
+    },
+    dispatch
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
