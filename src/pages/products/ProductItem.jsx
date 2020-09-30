@@ -3,7 +3,7 @@ import Button from '../../components/button';
 import {Link} from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { addToCart } from '../../redux/action';
+import { addToCart } from '../../redux/actions/product.action';
 import { bindActionCreators } from 'redux';
 
 
@@ -13,7 +13,7 @@ const ProductItem = ({product, addCart, addToCart}) => {
                     <div className="card">
                         <div className="card-header">
 
-                            <h2>Product {product.name}</h2>
+    <h2>Product {product.id} - {product.name}</h2>
                         </div>
                         <div className="card-body">
 
@@ -22,7 +22,8 @@ const ProductItem = ({product, addCart, addToCart}) => {
                         </div>
                         <div className="card-footer">
                             <Button text="Buy Now" className="btn btn-primary mt-2 mr-2" onClick={() => addToCart(product)} />
-                            <Button text="View More" className="btn btn-warning mt-2" onClick={() => ({})} />
+                            {/* <Button text="View More" className="btn btn-warning mt-2" onClick={() => ({})} /> */}
+                            <Link className="btn btn-warning" to={`/products/${product.id}`}>View More</Link>
                         </div>
                     </div>
                 </div>
