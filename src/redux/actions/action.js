@@ -1,4 +1,4 @@
-import * as actionTypes from './action-types';
+import * as actionTypes from '../constants/action-types';
 export function getAll(payload){
     return {
         type: actionTypes.GET_ALL,
@@ -13,10 +13,3 @@ export function getOne(payload){
     }
 }
 
-export function addToCart(payload){
-
-    return {
-        type: actionTypes.ADD_TO_CART,
-        payload
-    }
-}
