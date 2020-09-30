@@ -1,40 +1,34 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { getProductDetailApi } from '../../redux/actions/product.action';
+import { connect } from 'react-redux';
 
-// > 16.8 --> hooks ; dependency
 
 const ProductDetail = (props) => {
     const history = useHistory();
     const params = useRouteMatch();
     const [product, setProduct] = useState({});
 
-
-
     useEffect(() => {
         const productId = params.params.id;
-        getProduct(productId);
-        
+
+        props.getProductById(productId);
 
     }, []);
 
-    const getProduct = (id) => {
-        Axios.get(`http://165.22.103.200:8081/api/products/${id}`).then((res) => {
-            setProduct(res.data);
-        })
-    }
 
     const handleGoBack = () => {
         history.push('/products');
     }
-    
+
     return (
         <div className="container">
 
             <div className="row">
                 <div className="col-12">
-                    <img src={product.image} width="300"/>
-                    <span>Name: {product.name}</span>
+                    <img src={product.image} width="300" />
+                    <span>Name: {props.productItem.product.id}</span>---
                     <span>Price: {product.price}</span>
                 </div>
             </div>
@@ -43,4 +37,18 @@ const ProductDetail = (props) => {
     );
 }
 
-export default ProductDetail;
+const mapStateToProps = state => {
+    return {
+        productItem: state.productReducer
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getProductById: (id) => {
+            dispatch(getProductDetailApi(id))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

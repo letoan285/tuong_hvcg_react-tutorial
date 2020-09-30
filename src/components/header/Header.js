@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 const Header = ({product,cart }) => {
     const [myCart, setmyCart] = useState([]);
     useEffect(() => {
-        setmyCart([...cart.cart]);
+        setmyCart([...cart.cart || []]);
     }, [cart])
     return (
         <>
